@@ -1,11 +1,10 @@
 # This file is auto-generated during the composer install
 parameters:
-    database_driver: pdo_pgql
     database_host: localhost
     database_port: 5432
     database_name: bigbang
-    database_user: bigbang
-    database_password: cuoco
+    database_user: ericlinberg
+    database_password: 3m5am6u1
     mailer_transport: smtp
     mailer_host: 192.168.33.100
     mailer_user: www-data
