@@ -1,0 +1,21 @@
+AppBundle\Entity\Player:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\PlayerRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: '25'
+        age:
+            type: integer
+            nullable: true
+        not_sheldon:
+            type: integer
+            nullable: true
+    lifecycleCallbacks: {  }

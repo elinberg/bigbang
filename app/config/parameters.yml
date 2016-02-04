@@ -1,0 +1,13 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_pgql
+    database_host: localhost
+    database_port: 5432
+    database_name: bigbang
+    database_user: bigbang
+    database_password: cuoco
+    mailer_transport: smtp
+    mailer_host: 192.168.33.100
+    mailer_user: www-data
+    mailer_password: 3333
+    secret: ThisTokenIsNotSoSecretChangeIt

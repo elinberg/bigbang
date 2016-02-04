@@ -1,0 +1,27 @@
+AppBundle\Entity\Stats:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\StatsRepository
+    id:
+        player:
+            type: string
+            id: false
+    fields:
+        win:
+            type: string
+            length: 255
+        lose:
+            type: integer
+        draw:
+            type: integer
+        rocks:
+            type: integer
+        papers:
+            type: integer
+        scissors:
+            type: integer
+        lizards:
+            type: integer
+        spocks:
+            type: integer
+    lifecycleCallbacks: {  }
