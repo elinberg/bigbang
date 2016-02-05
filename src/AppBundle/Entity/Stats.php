@@ -60,7 +60,7 @@ class Stats
     /**
      * Set win
      *
-     * @param string $win
+     * @param integer $win
      * @return Stats
      */
     public function setWin($win)
@@ -73,7 +73,7 @@ class Stats
     /**
      * Get win
      *
-     * @return string 
+     * @return integer
      */
     public function getWin()
     {

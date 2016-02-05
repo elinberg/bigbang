@@ -144,14 +144,14 @@ class Rpsls extends Controller
         foreach($oStats as $oStat){
             $arStats[] = array(
                 'player'=> $oStat->getPlayer(),
-                'win'=> $oStat->getPlayer(),
-                'lose'=> $oStat->getPlayer(),
-                'draw'=> $oStat->getPlayer(),
-                'rocks'=> $oStat->getPlayer(),
-                'papers'=> $oStat->getPlayer(),
-                'scissors'=> $oStat->getPlayer(),
-                'lizards'=> $oStat->getPlayer(),
-                'spocks'=> $oStat->getPlayer()
+                'win'=> $oStat->getWin(),
+                'lose'=> $oStat->getLose(),
+                'draw'=> $oStat->getDraw(),
+                'rocks'=> $oStat->getRocks(),
+                'papers'=> $oStat->getPapers(),
+                'scissors'=> $oStat->getScissors(),
+                'lizards'=> $oStat->getLizards(),
+                'spocks'=> $oStat->getSpocks()
             );
         }
 

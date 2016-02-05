@@ -46,10 +46,9 @@ class StatsRepository extends EntityRepository
           SUM(CASE WHEN threw = \'Scissors\' THEN 1 ELSE 0 END ) as scissors,
           SUM(CASE WHEN threw = \'Lizard\' THEN 1 ELSE 0 END ) as lizards,
           SUM(CASE WHEN threw = \'Spock\' THEN 1 ELSE 0 END ) as spocks
-        FROM stat s
+        FROM stat
         GROUP BY player_id
         ORDER BY player_id',$rsm);
-
         return $query->getResult();
 
 
