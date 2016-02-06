@@ -118,7 +118,7 @@ class Rpsls extends Controller
 
 
     /**
-     * Persist the stats
+     * Persist the stat
      */
     private function createStat($playerId,$threw,$result){
         $oStat = new Stat();
@@ -172,9 +172,12 @@ class Rpsls extends Controller
             ->findBy(array('not_sheldon' => 1));
 
         foreach($oPlayers as $player){
-            $result[] = array('name'=> $player->getName(), 'id'=> $player->getId() );
+            $result[] = array( 'id'=> $player->getId(), 'name'=> $player->getName() );
         }
-        return( new Response(json_encode($result)) );
+
+
+        $response = new Response(json_encode($result));
+        return( $this->CorsResponse($response) );
 
     }
 
@@ -192,7 +195,22 @@ class Rpsls extends Controller
         foreach($oObjects as $object){
             $result[] = array('name'=> $object->getName(), 'id'=> $object->getId() );
         }
-        return( new Response(json_encode($result)) );
+        $response = new Response(json_encode($result));
+        return( $this->CorsResponse($response) );
+
+    }
+
+    /**
+     * Enable CORS
+     */
+
+    private function CorsResponse($response){
+
+        $response->headers->set('Access-Control-Allow-Headers', 'origin, content-type, accept');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, PATCH, OPTIONS');
+
+        return $response;
 
     }
 
