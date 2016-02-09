@@ -67,6 +67,8 @@ class Rpsls extends Controller
             throw $this->createNotFoundException('Failed to look up Player for id:'.$playerId);
         }
 
+        $objectIds=array('rock'=>1,'paper'=>2,'scissors'=>3,'lizard'=>4,'spock'=>5);
+
         //Look up object details
         $objectObj = $this->getDoctrine()
             ->getRepository('AppBundle:Object')
@@ -77,17 +79,26 @@ class Rpsls extends Controller
         }
 
         $yourChoice = $objectObj->getName();
+        //$yourChoice = $objectIds[strtolower($yourChoice)];
 
         $player = $playerObj->getName();
 
         $sheldonChoice = $this->sheldonChose();
+
+        $sheldonChoiceId = $objectIds[trim(strtolower($sheldonChoice))];
+
         $iCanKill = $this->killArray[$yourChoice];
 
 
 
         if($sheldonChoice === $yourChoice){
             $result = PlayerObject::DRAW;
-            $return = json_encode(array('sheldon'=> $sheldonChoice,'player'=>$player, 'choice'=>$yourChoice,'result'=> 'It\'s a DRAW!','result_id'=>2));
+            $return = json_encode(
+                        array('sheldon'=> $sheldonChoiceId,
+                            'player'=>$player, 'choice'=>$objectId,
+                            'result'=> 'It\'s a DRAW!',
+                            'result_id'=>2)
+                        );
             //insert player result
             $this->createStat($playerId,$yourChoice,PlayerObject::DRAW);
             //Insert Sheldon's stats
@@ -124,9 +135,9 @@ class Rpsls extends Controller
         $resultArray[]="WINS";
         $resultArray[]="DRAW";
         $return = json_encode(array(
-            'sheldon'=> $sheldonChoice,
+            'sheldon'=> $sheldonChoiceId,
             'player'=>$player,
-            'choice'=>$yourChoice,
+            'choice'=>trim($objectId),
             'result'=> $resultArray[$iResult],
             'result_id'=>$iResult));
         $response = new Response($return);
