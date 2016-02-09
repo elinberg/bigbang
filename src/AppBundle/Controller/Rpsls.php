@@ -53,9 +53,9 @@ class Rpsls extends Controller
     }
 
     /**
-     * @Route("/play/{playerId}/{yourChoice}")
+     * @Route("/play/{playerId}/{objectId}")
      */
-    public function play($playerId,$yourChoice){
+    public function play($playerId,$objectId){
 
         //Look up player details
         $playerObj = $this->getDoctrine()
@@ -67,6 +67,17 @@ class Rpsls extends Controller
             throw $this->createNotFoundException('Failed to look up Player for id:'.$playerId);
         }
 
+        //Look up object details
+        $objectObj = $this->getDoctrine()
+            ->getRepository('AppBundle:Object')
+            ->find(array('id' => $objectId));
+
+        if(! $objectObj){
+            throw $this->createNotFoundException('Failed to look up Object for id:'.$objectId);
+        }
+
+        $yourChoice = $objectObj->getName();
+
         $player = $playerObj->getName();
 
         $sheldonChoice = $this->sheldonChose();
@@ -76,12 +87,13 @@ class Rpsls extends Controller
 
         if($sheldonChoice === $yourChoice){
             $result = PlayerObject::DRAW;
-            $return = json_encode(array('sheldon'=> $sheldonChoice,'player'=>$player, 'choice'=>$yourChoice,'result'=> $result));
+            $return = json_encode(array('sheldon'=> $sheldonChoice,'player'=>$player, 'choice'=>$yourChoice,'result'=> 'It\'s a DRAW!','result_id'=>2));
             //insert player result
             $this->createStat($playerId,$yourChoice,PlayerObject::DRAW);
             //Insert Sheldon's stats
             $this->createStat(1,$sheldonChoice,PlayerObject::DRAW);
-            return(new Response($return));
+            $response = new Response($return);
+            return($this->CorsResponse($response));
         }
 
         $meObject = new PlayerObject($player);
@@ -108,10 +120,17 @@ class Rpsls extends Controller
         $this->createStat($playerId,$yourChoice,$iResult);
         //Insert Sheldon's stats
         $this->createStat(1,$sheldonChoice,$sheldonResult);
-
-        $return = json_encode(array('sheldon'=> $sheldonChoice,'player'=>$player, 'choice'=>$yourChoice,'result'=> $result));
-
-        return(new Response($return));
+        $resultArray[]="LOSES";
+        $resultArray[]="WINS";
+        $resultArray[]="DRAW";
+        $return = json_encode(array(
+            'sheldon'=> $sheldonChoice,
+            'player'=>$player,
+            'choice'=>$yourChoice,
+            'result'=> $resultArray[$iResult],
+            'result_id'=>$iResult));
+        $response = new Response($return);
+        return($this->CorsResponse($response));
 
 
     }
@@ -155,8 +174,8 @@ class Rpsls extends Controller
             );
         }
 
-
-        return new Response( json_encode($arStats) );
+        $response = new Response(json_encode($arStats));
+        return( $this->CorsResponse($response) );
     }
 
 
