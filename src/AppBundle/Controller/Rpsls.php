@@ -62,17 +62,26 @@ class Rpsls extends Controller
             ->getRepository('AppBundle:Player')
             ->find($playerId);
 
-
         if(! $playerObj){
             throw $this->createNotFoundException('Failed to look up Player for id:'.$playerId);
         }
 
-        $objectIds=array('rock'=>1,'paper'=>2,'scissors'=>3,'lizard'=>4,'spock'=>5);
+
+        //Look up object details
+        $object_ids = $this->getDoctrine()
+            ->getRepository('AppBundle:Object')
+            ->findAll();
+        foreach($object_ids as $id ){
+            $objectIds[strtolower($id->getName())] = $id->getId();
+        }
+        //exit;
 
         //Look up object details
         $objectObj = $this->getDoctrine()
             ->getRepository('AppBundle:Object')
             ->find(array('id' => $objectId));
+
+
 
         if(! $objectObj){
             throw $this->createNotFoundException('Failed to look up Object for id:'.$objectId);
@@ -207,6 +216,7 @@ class Rpsls extends Controller
 
 
         $response = new Response(json_encode($result));
+        //return( $response);
         return( $this->CorsResponse($response) );
 
     }
@@ -227,6 +237,7 @@ class Rpsls extends Controller
         }
         $response = new Response(json_encode($result));
         return( $this->CorsResponse($response) );
+        //return $response;
 
     }
 
